@@ -8,7 +8,7 @@
     "test": "cypress run -q",
     "cypress": "cypress open",
     "dev": "npm-run-all --parallel dev:js dev:icon dev:css",
-    "dev:js": "rollup src/index.js --file js/main.min.js --format iife -p @rollup/plugin-node-resolve --watch",
+    "dev:js": "rollup src/index.js --file js/main.js --format iife -p @rollup/plugin-node-resolve --watch",
     "dev:icon": "node watch.config.js",
     "dev:css": "sass --no-source-map --watch scss/build:css",
     "build": "npm-run-all build:js build:icon build:css",
