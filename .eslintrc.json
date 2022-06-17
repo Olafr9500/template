@@ -1,0 +1,41 @@
+{
+    "env": {
+        "browser": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:cypress/recommended"
+    ],
+    "parserOptions": {
+        "ecmaVersion": "latest",
+        "sourceType": "module"
+    },
+    "rules": {
+        "indent": [
+            "error",
+            4
+        ],
+        "linebreak-style": [
+            "error",
+            "unix"
+        ],
+        "quotes": [
+            "error",
+            "single"
+        ],
+        "semi": [
+            "error",
+            "always"
+        ],
+        "no-console": "off",
+        "cypress/no-assigning-return-values": "error",
+        "cypress/no-unnecessary-waiting": "off",
+        "cypress/assertion-before-screenshot": "warn",
+        "cypress/no-force": "warn",
+        "cypress/no-async-tests": "error",
+        "cypress/no-pause": "off"
+    },
+    "plugins": [
+        "cypress"
+    ]
+}
