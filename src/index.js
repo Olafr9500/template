@@ -1,6 +1,38 @@
-import { docId, json } from '@olafr/modulejs';
+import { docId, docQ, docQAll, json } from '@olafr/modulejs';
+import { Collapse, Modal } from 'bootstrap';
 window.addEventListener('load', () => {
     console.log('Loaded');
+
+    const modalTest = new Modal(docId('testModal'), {
+        backdrop: 'static',
+        keyboard: false,
+        focus: true,
+    });
+
+    let collapseElementList = [].slice.call(docQAll('.collapse')),
+        collapseList = collapseElementList.map(function (collapseEl) {
+            return new Collapse(collapseEl, {
+                toggle: false
+            });
+        });
+
+    collapseElementList.forEach(collapseEl => {
+        collapseEl.addEventListener('click', () => {
+            collapseList.forEach(collapse => {
+                if (collapse === collapseEl) {
+                    collapse.toggle();
+                }
+            });
+        });
+    });
+
+    docQ('nav form').addEventListener('submit', e => {
+        e.preventDefault();
+    });
+
+    docId('openModal').addEventListener('click', () => {
+        modalTest.show();
+    });
 
     json.read('package.json', response => {
         let packageJson = JSON.parse(response);
