@@ -4,8 +4,8 @@ window.addEventListener('load', () => {
     console.log('Loaded');
 
     const modalTest = new Modal(docId('testModal'), {
-        backdrop: 'static',
-        keyboard: false,
+        backdrop: true,
+        keyboard: true,
         focus: true,
     });
 
