@@ -28,6 +28,8 @@
             "always"
         ],
         "no-console": "off",
+        "no-prototype-builtins": "off",
+        "no-unused": "off",
         "cypress/no-assigning-return-values": "error",
         "cypress/no-unnecessary-waiting": "off",
         "cypress/assertion-before-screenshot": "warn",
@@ -37,5 +39,10 @@
     },
     "plugins": [
         "cypress"
-    ]
+    ],
+    "globals": {
+        "Map":"readonly",
+        "Set":"readonly",
+        "Promise":"readonly"
+    }
 }
