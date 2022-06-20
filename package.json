@@ -1,13 +1,13 @@
 {
   "name": "template",
   "version": "1.0.0",
-  "description": "",
+  "description": "Modèle de base pour les applications web",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
-    "test": "cypress run -q",
-    "cypress": "cypress open",
-    "dev": "npm-run-all --parallel dev:js dev:icon dev:css",
+    "start": "node .",
+    "test": "cypress open",
+    "test:cli": "cypress run -q",
+    "dev": "npm-run-all --parallel start dev:js dev:icon dev:css",
     "dev:js": "rollup src/index.js --file js/main.js --format iife -p @rollup/plugin-node-resolve --watch",
     "dev:icon": "node watch.config.js",
     "dev:css": "sass --no-source-map --watch scss/build:css",
@@ -26,12 +26,22 @@
     "purgecss:icon": "purgecss --css css/bootstrap-icons.css --content index.html \"js/*.js\" -o css/bootstrap-icons.css",
     "cleancss:icon": "cleancss -O2 -o css/bootstrap-icons.min.css css/bootstrap-icons.css"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "template",
+    "web",
+    "application"
+  ],
+  "author": "Olafr",
+  "bugs": {
+    "url": "https://github.com/Olafr9500/template/issues"
+  },
+  "homepage": "https://github.com/Olafr9500/template#readme",
   "license": "Apache-2.0",
   "devDependencies": {
     "@olafr/modulejs": "^1.2.5",
+    "@rollup/plugin-babel": "^5.3.1",
     "@rollup/plugin-node-resolve": "^13.3.0",
+    "@rollup/plugin-replace": "^4.0.0",
     "bootstrap": "^5.1.3",
     "bootstrap-icons": "^1.8.3",
     "clean-css-cli": "^5.6.0",
