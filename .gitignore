@@ -477,3 +477,7 @@ composer.lock
 
 ##### Node modules
 node_modules/
+
+##### Bundle files
+css/
+js/
