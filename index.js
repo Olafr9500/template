@@ -8,99 +8,95 @@ http.createServer(function (req, res) {
     const url = req.url.split('?')[0];
     switch (url) {
     case '/':
-        res.writeHead(200, { 'Content-Type': 'text/html' });
         fs.readFile('public/pages/index.html', function (err, data) {
             if (err) {
-                res.setHeader('Content-Type', 'application/json');
-                res.writeHead(404);
+                res.writeHead(404, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify(err));
                 console.log(`${req.method} ${req.url} - 404 ${err}`);
                 return;
             }
-            console.log(`${req.method} ${req.url} - 200`);
+            res.writeHead(200, { 'Content-Type': 'text/html' });
             res.end(data);
+            console.log(`${req.method} ${req.url} - 200`);
         });
         break;
     case '/about':
     case '/about/':
-        res.writeHead(200, { 'Content-Type': 'text/html' });
         fs.readFile('public/pages/about.html', function (err, data) {
             if (err) {
-                res.setHeader('Content-Type', 'application/json');
-                res.writeHead(404);
+                res.writeHead(404, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify(err));
                 console.log(`${req.method} ${req.url} - 404 ${err}`);
                 return;
             }
-            console.log(`${req.method} ${req.url} - 200`);
+            res.writeHead(200, { 'Content-Type': 'text/html' });
             res.end(data);
+            console.log(`${req.method} ${req.url} - 200`);
         });
         break;
     case '/package.json':
-        res.writeHead(200, { 'Content-Type': 'application/json' });
         fs.readFile('package.json', function (err, data) {
             if (err) {
-                res.writeHead(404);
+                res.writeHead(404, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify(err));
                 console.log(`${req.method} ${req.url} - 404 ${err}`);
                 return;
             }
-            console.log(`${req.method} ${req.url} - 200`);
+            res.writeHead(200, { 'Content-Type': 'application/json' });
             res.end(data);
+            console.log(`${req.method} ${req.url} - 200`);
         });
         break;
     default:
         if (url.startsWith('/css')) {
-            res.writeHead(200, { 'Content-Type': 'text/css' });
             fs.readFile('public' + url, function (err, data) {
                 if (err) {
-                    res.setHeader('Content-Type', 'application/json');
-                    res.writeHead(404);
+                    res.writeHead(404, { 'Content-Type': 'application/json' });
                     res.end(JSON.stringify(err));
                     console.log(`${req.method} ${req.url} - 404 ${err}`);
                     return;
                 }
-                console.log(`${req.method} ${req.url} - 200`);
+                res.writeHead(200, { 'Content-Type': 'text/css' });
                 res.end(data);
+                console.log(`${req.method} ${req.url} - 200`);
             });
         } else if (url.startsWith('/js')) {
-            res.writeHead(200, { 'Content-Type': 'application/javascript' });
             fs.readFile('public' + url, function (err, data) {
                 if (err) {
-                    res.setHeader('Content-Type', 'application/json');
-                    res.writeHead(404);
+                    res.writeHead(404 , { 'Content-Type': 'application/json' });
                     res.end(JSON.stringify(err));
                     console.log(`${req.method} ${req.url} - 404 ${err}`);
                     return;
                 }
-                console.log(`${req.method} ${req.url} - 200`);
+                res.writeHead(200, { 'Content-Type': 'application/javascript' });
                 res.end(data);
+                console.log(`${req.method} ${req.url} - 200`);
             });
-        } else if (url.startsWith('/img')) {
-            res.writeHead(200, { 'Content-Type': 'image/png' });
+        } else if (url.startsWith('/images')) {
             fs.readFile('public' + url, function (err, data) {
                 if (err) {
-                    res.setHeader('Content-Type', 'application/json');
-                    res.writeHead(404);
+                    res.writeHead(404, { 'Content-Type': 'application/json' });
                     res.end(JSON.stringify(err));
                     console.log(`${req.method} ${req.url} - 404 ${err}`);
                     return;
                 }
-                console.log(`${req.method} ${req.url} - 200`);
+                // get type of data
+                const type = url.split('.')[1];
+                res.writeHead(200, { 'Content-Type': `image/${type}` });
                 res.end(data);
+                console.log(`${req.method} ${req.url} - 200`);
             });
         } else {
-            res.writeHead(200, { 'Content-Type': 'text/html' });
             fs.readFile('public/pages/404.html', function (err, data) {
                 if (err) {
-                    res.setHeader('Content-Type', 'application/json');
-                    res.writeHead(404);
+                    res.writeHead(404, { 'Content-Type': 'application/json' });
                     res.end(JSON.stringify(err));
                     console.log(`${req.method} ${req.url} - 404 ${err}`);
                     return;
                 }
-                console.log(`${req.method} ${req.url} - 200`);
+                res.writeHead(200, { 'Content-Type': 'text/html' });
                 res.end(data);
+                console.log(`${req.method} ${req.url} - 200`);
             });
         }
     }
