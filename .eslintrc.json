@@ -29,6 +29,10 @@
         ],
         "no-console": "off",
         "no-prototype-builtins": "off",
+        "no-mixed-spaces-and-tabs": [
+            "error",
+            "smart-tabs"
+        ],
         "no-unused": "off",
         "cypress/no-assigning-return-values": "error",
         "cypress/no-unnecessary-waiting": "off",
@@ -41,8 +45,10 @@
         "cypress"
     ],
     "globals": {
-        "Map":"readonly",
-        "Set":"readonly",
-        "Promise":"readonly"
+        "global": true,
+        "globalThis": true,
+        "Map": "readonly",
+        "Set": "readonly",
+        "Promise": "readonly"
     }
 }
