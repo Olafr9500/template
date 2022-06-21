@@ -4,11 +4,8 @@ const generateFonts = require('fantasticon').generateFonts;
 const fs = require('fs');
 const configuration = require('./.fantasticonrc.js');
 
-
-const regexFileFonts = [
+const regexIcons = [
     '.*\\.svg',
-    '.*\\.html',
-    '.*\\.php',
     '\\.fantasticonrc\\.js'
 ];
 
@@ -21,7 +18,7 @@ watch.watchTree('.', {
     if (typeof f == 'object' && prev === null && curr === null) {
         console.log('Watching for changes...');
     } else if (typeof f === 'string') {
-        let regexValue = new RegExp(regexFileFonts.join('|'), 'gm');
+        let regexValue = new RegExp(regexIcons.join('|'), 'gm');
         if (f.match(regexValue)) {
             console.log('File ' + f + ' was ' + (curr.nlink === 0 ? 'remove' : (prev ? 'updated' : 'added')));
             console.log('Updating fonts');
