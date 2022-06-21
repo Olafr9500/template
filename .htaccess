@@ -1,0 +1,4 @@
+RewriteEngine On
+RewriteRule ^about/$ index.php?page=about
+RewriteRule ^css/.*\.css public/%{REQUEST_URI}
+RewriteRule ^js/.*\.js public/%{REQUEST_URI}
