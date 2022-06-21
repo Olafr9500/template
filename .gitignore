@@ -479,6 +479,10 @@ composer.lock
 node_modules/
 
 ##### Bundle files
-css/
-js/
-fonts/
+public/css/
+public/js/
+public/fonts/
+public/img/
+public/sw.js*
+public/workbox-*
+robots.txt
