@@ -1,10 +1,11 @@
 import Modal from 'bootstrap/js/dist/modal';
 import Collapse from 'bootstrap/js/dist/collapse';
-import { docId, docQ, docQAll, json } from '@olafr/modulejs';
+import { docId, docQAll, json } from '@olafr/modulejs';
+import callSW from './sw';
 // import { Collapse, Modal } from 'bootstrap';
 window.addEventListener('load', () => {
     console.log('Loaded');
-
+    callSW();
     const modalTest = new Modal(docId('testModal'), {
         backdrop: true,
         keyboard: true,
@@ -26,10 +27,6 @@ window.addEventListener('load', () => {
                 }
             });
         });
-    });
-
-    docQ('nav form').addEventListener('submit', e => {
-        e.preventDefault();
     });
 
     docId('openModal').addEventListener('click', () => {
