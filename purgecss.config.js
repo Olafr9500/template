@@ -1,6 +1,6 @@
 /* eslint-env node */
 module.exports = {
-    content: ['index.html', 'js/*.js'],
-    css: ['css/*.css'],
-    skippedContentGlobs: ['node_modules/**', 'fonts/**']
+    content: ['public/pages/*.html', 'public/js/*.js'],
+    css: ['public/css/*.css'],
+    skippedContentGlobs: ['node_modules/**', 'public/fonts/**']
 };
