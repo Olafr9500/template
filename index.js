@@ -31,8 +31,18 @@ http.createServer(function (req, res) {
         });
         break;
     case '/package.json':
-    case '/manifest.json':
         fs.readFile('.' + url, function (err, data) {
+            if (err) {
+                return404(req.method, req.url, err, res);
+                return;
+            }
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(data);
+            console.log(`${req.method} ${req.url} - 200`);
+        });
+        break;
+    case '/manifest.json':
+        fs.readFile('public' + url, function (err, data) {
             if (err) {
                 return404(req.method, req.url, err, res);
                 return;
