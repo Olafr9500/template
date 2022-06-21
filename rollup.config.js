@@ -1,7 +1,9 @@
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
 import { babel } from '@rollup/plugin-babel';
-export default [
+import { terser } from 'rollup-plugin-terser';
+
+const rollupConfig = [
     {
         input: 'src/scripts/index.js',
         output: {
@@ -16,7 +18,7 @@ export default [
             commonjs(),
             resolve({
                 browser: true,
-            }),
+            })
         ]
     }, {
         input: 'src/scripts/about.js',
@@ -36,3 +38,10 @@ export default [
         ]
     }
 ];
+// eslint-disable-next-line no-undef
+if (process.env.production === 'true') {
+    rollupConfig.forEach(config => {
+        config.plugins.push(terser());
+    });
+}
+export default rollupConfig;
