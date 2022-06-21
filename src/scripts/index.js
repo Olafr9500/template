@@ -1,5 +1,7 @@
+import Modal from 'bootstrap/js/dist/modal';
+import Collapse from 'bootstrap/js/dist/collapse';
 import { docId, docQ, docQAll, json } from '@olafr/modulejs';
-import { Collapse, Modal } from 'bootstrap';
+// import { Collapse, Modal } from 'bootstrap';
 window.addEventListener('load', () => {
     console.log('Loaded');
 
