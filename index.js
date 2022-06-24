@@ -121,7 +121,7 @@ http.createServer(function (req, res) {
                 console.log(`${req.method} ${req.url} - 200`);
             });
         } else {
-            fs.readFile('public/pages/404.html', function (err, data) {
+            fs.readFile('public/pages/default/404.html', function (err, data) {
                 if (err) {
                     return404(req.method, req.url, err, res);
                     return;
