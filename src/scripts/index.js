@@ -1,8 +1,7 @@
 import Modal from 'bootstrap/js/dist/modal';
 import Collapse from 'bootstrap/js/dist/collapse';
 import { docId, docQAll, json } from '@olafr/modulejs';
-import callSW from './sw';
-// import { Collapse, Modal } from 'bootstrap';
+import callSW from './modules/sw';
 window.addEventListener('load', () => {
     console.log('Loaded');
     callSW();

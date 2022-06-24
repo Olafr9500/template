@@ -1,6 +1,6 @@
 import { docQAll } from '@olafr/modulejs';
 import Collapse from 'bootstrap/js/dist/collapse';
-import callSW from './sw';
+import callSW from './modules/sw';
 window.addEventListener('load', () => {
     console.log('Loaded');
     callSW();
