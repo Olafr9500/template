@@ -1,31 +1,15 @@
 import Modal from 'bootstrap/js/dist/modal';
-import Collapse from 'bootstrap/js/dist/collapse';
-import { docId, docQAll, json } from '@olafr/modulejs';
+import { docId, json } from '@olafr/modulejs';
 import callSW from './modules/sw';
+import setupHeader from './modules/header';
 window.addEventListener('load', () => {
     console.log('Loaded');
     callSW();
+    setupHeader();
     const modalTest = new Modal(docId('testModal'), {
         backdrop: true,
         keyboard: true,
         focus: true,
-    });
-
-    let collapseElementList = [].slice.call(docQAll('.collapse')),
-        collapseList = collapseElementList.map(function (collapseEl) {
-            return new Collapse(collapseEl, {
-                toggle: false
-            });
-        });
-
-    collapseElementList.forEach(collapseEl => {
-        collapseEl.addEventListener('click', () => {
-            collapseList.forEach(collapse => {
-                if (collapse === collapseEl) {
-                    collapse.toggle();
-                }
-            });
-        });
     });
 
     docId('openModal').addEventListener('click', () => {
