@@ -3,9 +3,10 @@ import resolve from '@rollup/plugin-node-resolve';
 import { babel } from '@rollup/plugin-babel';
 import { terser } from 'rollup-plugin-terser';
 
+const scriptsFolder = 'src/scripts/';
 const rollupConfig = [
     {
-        input: 'src/scripts/index.js',
+        input: scriptsFolder + 'index.js',
         output: {
             file: 'public/js/main.js',
             format: 'iife'
@@ -21,7 +22,7 @@ const rollupConfig = [
             })
         ]
     }, {
-        input: 'src/scripts/about.js',
+        input: scriptsFolder + 'about.js',
         output: {
             file: 'public/js/about.js',
             format: 'iife'
