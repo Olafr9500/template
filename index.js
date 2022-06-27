@@ -53,7 +53,7 @@ http.createServer(function (req, res) {
         });
         break;
     case '/sw.js':
-    case '/workbox-dd1eae70.js':
+    case '/workbox-7d6a3f4d.js':
         fs.readFile('public/' + url, function (err, data) {
             if (err) {
                 return404(req.method, req.url, err, res);
@@ -65,7 +65,7 @@ http.createServer(function (req, res) {
         });
         break;
     case '/sw.js.map':
-    case '/workbox-dd1eae70.js.map':
+    case '/workbox-7d6a3f4d.js.map':
         fs.readFile('public/' + url, function (err, data) {
             if (err) {
                 return404(req.method, req.url, err, res);
@@ -108,7 +108,7 @@ http.createServer(function (req, res) {
                 res.end(data);
                 console.log(`${req.method} ${req.url} - 200`);
             });
-        } else if (url.startsWith('/images')) {
+        } else if (url.startsWith('/img')) {
             fs.readFile('public' + url, function (err, data) {
                 if (err) {
                     return404(req.method, req.url, err, res);

@@ -1,0 +1,76 @@
+#!/usr/bin/env node
+
+/* eslint-env node */
+const yargs = require('yargs');
+const fs = require('fs');
+const loadConfigFile = require('rollup/loadConfigFile');
+const rollup = require('rollup');
+const path = require('path');
+const sass = require('sass');
+
+yargs
+    .scriptName('template')
+    .usage('Usage: $0 <command> [options]')
+    .command('add [name]', 'Ajoute une nouvelle page', (yargs) => {
+        yargs.positional('name', {
+            type: 'string',
+            describe: 'Nom de la page'
+        });
+    }, addPage)
+    .command('build [type]', 'Construit les dépendances', (yargs) => {
+        yargs.positional('type', {
+            type: 'string',
+            describe: 'Type de build',
+            choices: ['dev', 'prod']
+        });
+    }, build)
+    .help()
+    .argv;
+
+function addPage(argv) {
+    const name = argv.name;
+    const jsScript = fs.readFileSync('bin/pattern/index.js', 'utf8');
+    let htmlPage = fs.readFileSync('bin/pattern/index.html', 'utf8');
+    htmlPage = htmlPage.replace(/js\/main.js/m, `js/${name}.js`);
+    htmlPage = htmlPage.replace(/<\/ul>/m, `<li class="nav-item"><a class="nav-link" href="/${name}/">${name}</a></li>\n</ul>`);
+    fs.writeFileSync(`public/pages/${name}.html`, htmlPage);
+    fs.writeFileSync(`src/scripts/${name}.js`, jsScript);
+    console.log(`Page ${name} créée`);
+}
+
+function build(argv) {
+    // const type = argv.type;
+    switch (argv.type) {
+        case 'dev':
+            buildDev();
+            break;
+        case 'prod':
+            buildProd();
+            break;
+        default:
+            console.log('Type de build inconnu');
+            break;
+    }
+
+    function buildDev() {
+        console.log('Build dev');
+        console.log('-- Build css --');
+        // Compile all files in tje folder "src/styles" to "public/css"
+        fs.writeFileSync('public/css/main.css', sass.compile('src/styles/main.scss').css);
+        console.log('-- Build javascript --');
+        // Get the configuation file for rollup with the fonction loadConfigFile
+        loadConfigFile(path.resolve(__dirname, '../rollup.config.js'), { format: 'es' }).then(async ({ options, warnings }) => {
+            console.log(`We currently have ${warnings.count} warnings`);
+            warnings.flush();
+            for (const optionsObj of options) {
+                const bundle = await rollup.rollup(optionsObj);
+                // eslint-disable-next-line no-undef
+                await Promise.all(optionsObj.output.map(bundle.write));
+            }
+        });
+    }
+
+    function buildProd() {
+        console.log('Build prod');
+    }
+}
