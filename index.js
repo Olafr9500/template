@@ -1,143 +1,68 @@
 /* eslint-env node */
-const http = require('http');
 const fs = require('fs');
+const http = require('http');
+const path = require('path');
 
-console.clear();
+const port = 8000;
+const directory = './public';
 
-http.createServer(function (req, res) {
-    const url = req.url.split('?')[0];
-    switch (url) {
-    case '/':
-        fs.readFile('public/pages/index.html', function (err, data) {
-            if (err) {
-                return404(req.method, req.url, err, res);
-                return;
-            }
-            res.writeHead(200, { 'Content-Type': 'text/html' });
-            res.end(data);
-            console.log(`${req.method} ${req.url} - 200`);
-        });
-        break;
-    case '/about':
-    case '/about/':
-        fs.readFile('public/pages/about.html', function (err, data) {
-            if (err) {
-                return404(req.method, req.url, err, res);
-                return;
-            }
-            res.writeHead(200, { 'Content-Type': 'text/html' });
-            res.end(data);
-            console.log(`${req.method} ${req.url} - 200`);
-        });
-        break;
-    case '/package.json':
-        fs.readFile('.' + url, function (err, data) {
-            if (err) {
-                return404(req.method, req.url, err, res);
-                return;
-            }
-            res.writeHead(200, { 'Content-Type': 'application/json' });
-            res.end(data);
-            console.log(`${req.method} ${req.url} - 200`);
-        });
-        break;
-    case '/manifest.json':
-        fs.readFile('public' + url, function (err, data) {
-            if (err) {
-                return404(req.method, req.url, err, res);
-                return;
-            }
-            res.writeHead(200, { 'Content-Type': 'application/json' });
-            res.end(data);
-            console.log(`${req.method} ${req.url} - 200`);
-        });
-        break;
-    case '/sw.js':
-    case '/workbox-7d6a3f4d.js':
-        fs.readFile('public/' + url, function (err, data) {
-            if (err) {
-                return404(req.method, req.url, err, res);
-                return;
-            }
-            res.writeHead(200, { 'Content-Type': 'application/javascript' });
-            res.end(data);
-            console.log(`${req.method} ${req.url} - 200`);
-        });
-        break;
-    case '/sw.js.map':
-    case '/workbox-7d6a3f4d.js.map':
-        fs.readFile('public/' + url, function (err, data) {
-            if (err) {
-                return404(req.method, req.url, err, res);
-                return;
-            }
-            res.writeHead(200, { 'Content-Type': 'application/json' });
-            res.end(data);
-            console.log(`${req.method} ${req.url} - 200`);
-        });
-        break;
-    case '/robots.txt':
-        fs.readFile('public/' + url, function (err, data) {
-            if (err) {
-                return404(req.method, req.url, err, res);
-                return;
-            }
-            res.writeHead(200, { 'Content-Type': 'text/plain' });
-            res.end(data);
-            console.log(`${req.method} ${req.url} - 200`);
-        });
-        break;
-    default:
-        if (url.startsWith('/css')) {
-            fs.readFile('public' + url, function (err, data) {
-                if (err) {
-                    return404(req.method, req.url, err, res);
-                    return;
-                }
-                res.writeHead(200, { 'Content-Type': 'text/css' });
-                res.end(data);
-                console.log(`${req.method} ${req.url} - 200`);
-            });
-        } else if (url.startsWith('/js')) {
-            fs.readFile('public' + url, function (err, data) {
-                if (err) {
-                    return404(req.method, req.url, err, res);
-                    return;
-                }
-                res.writeHead(200, { 'Content-Type': 'application/javascript' });
-                res.end(data);
-                console.log(`${req.method} ${req.url} - 200`);
-            });
-        } else if (url.startsWith('/img')) {
-            fs.readFile('public' + url, function (err, data) {
-                if (err) {
-                    return404(req.method, req.url, err, res);
-                    return;
-                }
-                // get type of data
-                const type = url.split('.')[1];
-                res.writeHead(200, { 'Content-Type': `image/${type}` });
-                res.end(data);
-                console.log(`${req.method} ${req.url} - 200`);
-            });
-        } else {
-            fs.readFile('public/pages/default/404.html', function (err, data) {
-                if (err) {
-                    return404(req.method, req.url, err, res);
-                    return;
-                }
-                res.writeHead(200, { 'Content-Type': 'text/html' });
-                res.end(data);
-                console.log(`${req.method} ${req.url} - 200`);
-            });
+const types = {
+    txt: 'text/plain',
+    html: 'text/html',
+    css: 'text/css',
+    js: 'application/javascript',
+    json: 'application/json',
+    jpg: 'image/jpeg',
+    png: 'image/png',
+    ico: 'image/x-icon',
+    woff2: 'font/woff2',
+    woff: 'font/woff',
+    map: 'application/json'
+};
+
+const root = path.normalize(path.resolve(directory));
+
+const server = http.createServer((req, res) => {
+    console.log(`${req.method} ${req.url} - ${res.statusCode}`);
+    const extension = path.extname(req.url).slice(1);
+    const type = extension ? types[extension] : types.html;
+    if (Boolean(type) === false) {
+        res.writeHead(404, { 'Content-Type': 'text/plain' });
+        res.end('404: Fail initializing extension');
+        return;
+    }
+    let fileName = req.url.replace(/\/$/, '');
+    console.log(fileName);
+    if (req.url === '/') fileName = '/pages/index.html';
+    else if (!extension) {
+        try {
+            fs.accessSync(path.join(root, '/pages', fileName + '.html'), fs.constants.R_OK);
+            fileName = '/pages/' + fileName + '.html';
+        } catch (err) {
+            fileName = fileName + '.html';
         }
     }
-}).listen(3000, () => {
-    console.log('Server running at http://localhost:3000/');
+
+    const filePath = path.join(root, fileName);
+    const isPathUnderRoot = path.normalize(path.resolve(filePath)).startsWith(root);
+
+    if (isPathUnderRoot === false) {
+        res.writeHead(404, { 'Content-Type': 'text/plain' });
+        res.end('404: File outside of root');
+        return;
+    }
+
+    fs.readFile(filePath, (err, data) => {
+        if (err) {
+            res.writeHead(404, { 'Content-Type': 'text/plain' });
+            res.end('404: File not found ' + filePath);
+            return;
+        }
+        res.writeHead(200, { 'Content-Type': type });
+        res.end(data);
+    });
 });
 
-function return404(method, url, error, response){
-    response.writeHead(404, { 'Content-Type': 'application/json' });
-    response.end(JSON.stringify(error));
-    console.log(`${method} ${url} - 404 ${error}`);
-}
+server.listen(port, () => {
+    console.log(`Server listening on port ${port}`);
+});
