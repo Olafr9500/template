@@ -12,7 +12,7 @@ fs.readdirSync(scriptsFolder).forEach(file => {
         rollupConfig.push({
             input: `${scriptsFolder}${name}.js`,
             output: {
-                file: `public/scripts/${name}.js`,
+                file: `public/js/${name}.js`,
                 format: 'iife',
             },
             plugins: [
