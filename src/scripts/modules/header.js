@@ -1,4 +1,4 @@
-import { docQAll } from '@olafr/modulejs';
+import { docQ, docQAll } from '@olafr/modulejs';
 import Collapse from 'bootstrap/js/dist/collapse';
 
 function setupHeader() {
@@ -17,6 +17,12 @@ function setupHeader() {
                 }
             });
         });
+    });
+
+    docQ('.navbar form').addEventListener('submit', e => {
+        e.preventDefault();
+        let search = docQ('.navbar form input').value;
+        console.log(`${search}`);
     });
 }
 
