@@ -18,7 +18,7 @@ window.addEventListener('load', () => {
 
     json.read('package.json', response => {
         let packageJson = JSON.parse(response);
-        for (const [key, value] of Object.entries(packageJson.devDependencies)) {
+        for (const [key, value] of Object.entries(packageJson)) {
             docId('listDependencies').innerHTML += `<li>${key} : ${value}</li>`;
         }
     });
