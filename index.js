@@ -23,18 +23,18 @@ const types = {
 const root = path.normalize(path.resolve(directory));
 
 const server = http.createServer((req, res) => {
-    console.log(`${req.method} ${req.url} - ${res.statusCode}`);
-    const extension = path.extname(req.url).slice(1);
+    const extension = path.extname(req.url).slice(1).split('?')[0];
     const type = extension ? types[extension] : types.html;
     if (Boolean(type) === false) {
         res.writeHead(404, { 'Content-Type': 'text/plain' });
         res.end('404: Fail initializing extension');
         return;
     }
-    let fileName = req.url.replace(/\/$/, '');
-    console.log(fileName);
-    if (req.url === '/') fileName = '/pages/index.html';
+    
+    let fileName = req.url.split('?')[0];
+    if (fileName === '/') fileName = '/pages/index.html';
     else if (!extension) {
+        fileName = fileName.replace(/\/$/, '');
         try {
             fs.accessSync(path.join(root, '/pages', fileName + '.html'), fs.constants.R_OK);
             fileName = '/pages/' + fileName + '.html';
@@ -61,6 +61,8 @@ const server = http.createServer((req, res) => {
         res.writeHead(200, { 'Content-Type': type });
         res.end(data);
     });
+    
+    console.log(`${req.method} ${req.url} - ${res.statusCode}`);
 });
 
 server.listen(port, () => {
